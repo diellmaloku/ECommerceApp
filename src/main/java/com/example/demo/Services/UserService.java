@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class UserServise {
+public class UserService {
 
     private UserRepository userRepository;
 
-    public UserServise(UserRepository userRepository) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -38,6 +38,19 @@ public class UserServise {
             return newUser;
         } else {
             throw new RuntimeException("User with id " + user.getUserId() + " does not exist!");
+        }
+    }
+
+    public Iterable<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public User getUserById(Long userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            return optionalUser.get();
+        } else {
+            throw new RuntimeException("User with id " + userId + " does not exist!");
         }
     }
 }
